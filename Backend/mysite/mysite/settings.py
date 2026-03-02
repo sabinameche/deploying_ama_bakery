@@ -105,12 +105,14 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [
                 {
-                    "address": (REDIS_HOST, REDIS_PORT),
-                    "password": REDIS_PASSWORD,
+                    "address": f"redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/0"
+                    if REDIS_PASSWORD
+                    else f"redis://{REDIS_HOST}:{REDIS_PORT}/0",
+                    "ssl": False,  # Set to True if using Redis with SSL
                 }
             ],
-            "capacity": 1500,
-            "expiry": 60,
+            "capacity": 1500,  # Default channel capacity
+            "expiry": 60,  # Message expiry in seconds
         },
     },
 }
